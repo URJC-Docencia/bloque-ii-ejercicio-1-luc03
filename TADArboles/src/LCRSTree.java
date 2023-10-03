@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 
 /**
- * An implementation of the NAryTree interface using left-child, right-sibling representation.
+ * An implementation of .the NAryTree interface using left-child, right-sibling representation.
  *
  * @param <E> the type of elements stored in the tree
  */
