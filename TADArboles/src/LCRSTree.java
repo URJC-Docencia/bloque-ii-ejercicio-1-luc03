@@ -11,7 +11,7 @@ import java.util.Iterator;
 public class LCRSTree<E> implements NAryTree<E> {
     private int size;
     private  LCRSnode<E> root;
-    private class LCRSnode<T> implements Position<T> {
+    private class LCRSnode<T> implements Position<E> {
         private E element;
         private LCRSnode<E> parent;
         private LCRSnode<E> child;
@@ -30,17 +30,33 @@ public class LCRSTree<E> implements NAryTree<E> {
             return parent;
         }
 
-        public LCRSnode<E> getChild() {
+        public LCRSnode<E> getLeftChild() {
             return child;
         }
 
-        public LCRSnode<E> getSiblling() {
+        public LCRSnode<E> getRightSiblling() {
             return siblling;
 
         }
 
+        public void setParent(LCRSnode<E> parent) {
+            this.parent = parent;
+        }
+
+        public void setLeftChild(LCRSnode<E> child) {
+            this.child = child;
+        }
+
+        public void setElement(E element) {
+            this.element = element;
+        }
+
+        public void setRightSiblling(LCRSnode<E> siblling) {
+            this.siblling = siblling;
+        }
+
         @Override
-        public T getElement() {
+        public E getElement() {
             throw new UnsupportedOperationException("Not supported yet.");
         }
 
@@ -57,28 +73,70 @@ public class LCRSTree<E> implements NAryTree<E> {
     }
 
     @Override
-    public Position<E> add(E element, Position<E> p) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    public Position<E> add(E e, Position<E> p) {
+        LCRSnode<E> padre = checkPosition(p);
+        LCRSnode<E> nodo = new LCRSnode<E>(e);
 
+        if (padre.getLeftChild() == null)
+            padre.setLeftChild(nodo);
+        else {
+            LCRSnode<E> hijo = padre.getLeftChild();
+            while (hijo.getRightSiblling() != null) {
+                hijo = hijo.getRightSiblling();
+            }
+            hijo.setRightSiblling(nodo);
+
+        }
+        size++;
+        return nodo;
+    }
     @Override
     public Position<E> add(E element, Position<E> p, int n) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
+    private LCRSnode<E> checkPosition(Position<E> p) {
+        if (!(p instanceof LCRSTree.LCRSnode)) {
+            throw new RuntimeException("The position is invalid");}
 
+        return (LCRSnode<E>) p;
+        }
     @Override
     public void swapElements(Position<E> p1, Position<E> p2) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        LCRSnode<E> nodo1 = checkPosition(p1);
+        LCRSnode<E> nodo2 = checkPosition(p1);
+        E aux = nodo1.getElement();
+        nodo1.setElement(nodo2.getElement());
+        nodo2.setElement(aux);
+
     }
 
     @Override
     public E replace(Position<E> p, E e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        LCRSnode nodo = checkPosition(p);
+        E ultimo = (E) nodo.getElement();
+        nodo.setElement(e);
+        return ultimo;
     }
 
     @Override
     public void remove(Position<E> p) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        LCRSnode <E> node = checkPosition(p);
+        if (node == root){
+            root = null;
+            size = 0;
+        } else {
+            LCRSnode <E> padre = node.getParent();
+            if (padre.getLeftChild() == node){
+                padre.setLeftChild(node.getRightSiblling());
+            } else {
+                if (node.getRightSiblling() == null){
+                    node = null;
+                } else {
+                    while ()
+                }
+            }
+        }
+
     }
 
     @Override
